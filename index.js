@@ -306,7 +306,8 @@ const checkWebhook = async (url, username, password) => {
 
 //--------
 app.post('/addIsuue', (req,res) => {
-    const projects = req.body;
+  console.log('add issue');  
+  const projects = req.body;
     const record={};
     record.IssueId=projects.issue.id;
     record.ProjectName=projects.issue.fields.project.name;
@@ -317,6 +318,7 @@ app.post('/addIsuue', (req,res) => {
     record.objectID=projects.issue.id;
     
     const records =[record];
+    console.log(records);
     const index = client.initIndex("Isses_Name");
     index.saveObjects(records);
 });
