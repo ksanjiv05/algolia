@@ -220,31 +220,23 @@ app.get("/a", async function (req, res) {
 });
 
 app.post('/auth', async function(req, res){
-  // Retrieve Jira projects
-  console.log('i am auth');
   const url = req.body.url;
   const username = req.body.username;
   const password = req.body.password;
-  console.log(req.body);
   const options = {
     method: "GET",
     url: url + "/rest/api/3/project",
     auth: { username: username, password: password },
     headers: { Accept: "application/json" },
   };
-  const result = await axios(options)
+  await axios(options)
     .then(function (responce) {
       console.log("success");
-      console.log(responce.status);
-      //after auth user need to check if webhook is avalilable aginest user
       checkWebhook(url, username, password);
       return res.status(200).json({ greeting: "success" });
-      //return 'success'
     })
     .catch(function (err) {
-      //console.log(err);
-      return res.status(422).json({ greeting: "error" });
-      //return 'error'
+      return res.status(400).json({ greeting: "error" });
     });
 }
 );
@@ -268,33 +260,28 @@ const createWebhook = async (url, username, password) => {
     headers: { Accept: "application/json" },
     data: data,
   };
-  const result = await axios(options)
+  await axios(options)
     .then(function (responce) {
       console.log("success");
-      console.log(responce.status);
     })
     .catch(function (err) {
-      console.log("reere");
+      console.log("error");
     });
 };
 
 
 
-checkWebhook = async (url, username, password) => {
+const checkWebhook = async (url, username, password) => {
   console.log("check web ---------------------- " + url);
   const options = {
     method: "get",
     url: url + "/rest/webhooks/1.0/webhook",
     auth: { username: username, password: password },
-
     headers: { Accept: "application/json" },
   };
-  const result = await axios(options)
+  await axios(options)
     .then(function (responce) {
       console.log("success");
-      console.log(responce.status);
-      console.log(responce.data.length);
-      console.log(responce.data);
       const webhooks = responce.data;
       let flag = false;
       webhooks.map((hook) => {
@@ -313,13 +300,13 @@ checkWebhook = async (url, username, password) => {
       }
     })
     .catch(function (err) {
-      console.log("reere");
+      console.log("error");
     });
 };
 
 //--------
 app.post('addIsuue', (req,res) => {
-    const projects = req.body;//JSON.parse(issuebody);
+    const projects = req.body;
     const record={};
     record.IssueId=projects.issue.id;
     record.ProjectName=projects.issue.fields.project.name;
@@ -330,20 +317,10 @@ app.post('addIsuue', (req,res) => {
     record.objectID=projects.issue.id;
     
     const records =[record];
-    indexData(index, records);
-    // if (atomicFlag) {
-    //   atomicallyReindexData(client, index, records);
-    // }
-    // else {
-    //   indexData(index, records);
-    // };
+    const index = client.initIndex("demoConfluence");
+    index.saveObjects(records);
 });
 
-function indexData(index, data) {
-  const index1 = client.initIndex("demoConfluence");
-  index1.saveObjects(data);
-  console.log(data);
-}
 
 app.listen(port, function () {
   console.log(`Example app listening on port ! ${port}`);
