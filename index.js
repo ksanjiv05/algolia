@@ -254,7 +254,7 @@ const createWebhook = async (url, username, password) => {
   console.log("create web -" + username);
   const data = {
     name: "This is default webhook ",
-    url: "https://algolioproject.herokuapp.com/api/jira/addIsuue",
+    url: "https://nameless-cove-12952.herokuapp.com/api/jira/addIsuue",
     events: ["jira:issue_created", "jira:issue_updated"],
     jqlFilter: "Project = JRA AND resolution = Fixed",
     excludeIssueDetails: false,
@@ -299,7 +299,7 @@ checkWebhook = async (url, username, password) => {
       let flag = false;
       webhooks.map((hook) => {
         if (
-          hook.url === "https://algolioproject.herokuapp.com/addIsuue"
+          hook.url === "https://nameless-cove-12952.herokuapp.com/addIsuue"
         ) {
           console.log(hook.url);
           flag = true;
