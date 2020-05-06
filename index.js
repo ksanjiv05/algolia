@@ -254,7 +254,7 @@ const createWebhook = async (url, username, password) => {
   console.log("create web -" + username);
   const data = {
     name: "This is default webhook ",
-    url: "https://nameless-cove-12952.herokuapp.com/api/jira/addIsuue",
+    url: "https://nameless-cove-12952.herokuapp.com/addIsuue",
     events: ["jira:issue_created", "jira:issue_updated"],
     jqlFilter: "Project = JRA AND resolution = Fixed",
     excludeIssueDetails: false,
