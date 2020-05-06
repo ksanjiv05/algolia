@@ -320,7 +320,9 @@ app.post('/addIsuue', (req,res) => {
     const records =[record];
     console.log(records);
     const index = client.initIndex("Isses_Name");
-    index.saveObjects(records);
+    console.log('index----',index);
+    const x=index.saveObjects(records);
+    console.log('----',x);
 });
 
 
