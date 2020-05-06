@@ -12,7 +12,7 @@ app.use(cors());
 // parse application/json
 app.use(bodyParser.json());
 var port = process.env.PORT || 3001
-const client = algoliasearch("1BG45YLJO5", "38a1d2a23ed5658bd4e874e45074a2ce");
+const client =  algoliasearch('UE79BOFCH0', '39bcba225bacc52c6cc67ff0814fda7a');
 
 function confluenceGet(obj) {
   return rp({
@@ -305,7 +305,7 @@ const checkWebhook = async (url, username, password) => {
 };
 
 //--------
-app.post('addIsuue', (req,res) => {
+app.post('/addIsuue', (req,res) => {
     const projects = req.body;
     const record={};
     record.IssueId=projects.issue.id;
@@ -317,7 +317,7 @@ app.post('addIsuue', (req,res) => {
     record.objectID=projects.issue.id;
     
     const records =[record];
-    const index = client.initIndex("demoConfluence");
+    const index = client.initIndex("Isses_Name");
     index.saveObjects(records);
 });
 
